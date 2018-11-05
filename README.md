@@ -1,4 +1,4 @@
-# Instagram Top Posts Scraper
+# Instagram Influencer Scraper
 
 ## What is this
 This script scrapes `handle` and `name` from top posts on Instagram based on #hashtags using selenium webdriver
