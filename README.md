@@ -16,7 +16,7 @@ This script scrapes `handle` and `name` from top posts on Instagram based on #ha
 2. Download [chromedriver](http://chromedriver.chromium.org/). Place in root directory.
 3. Create `influencers` and `tags` file (no extension) in root directory
 4. Set `IG_USERNAME` and `IG_PASSWORD` environment variables
-5. Run `$ python app.py`
+5. `$ python app.py`
 
 `tags` file should look like:
 ```
