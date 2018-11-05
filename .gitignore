@@ -1,0 +1,6 @@
+venv
+chromedriver
+.idea
+*.pyc
+influencers
+tags
