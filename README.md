@@ -18,12 +18,6 @@ This script scrapes `handle` and `name` from top posts on Instagram based on #ha
 4. Set `IG_USERNAME` and `IG_PASSWORD` environment variables
 5. Run `$ python app.py`
 
-Results will be stored in `influencers` file. E.g.
-```
-pewdiepie,PewDiePie
-markiplier,Markiplier
-```
-
 `tags` file should look like:
 ```
 gaming
@@ -32,9 +26,15 @@ mensfashion
 
 `MAX_HANDLE_ATTEMPTS` is set in `app.py` to `25` by default. This configuration sets the number of posts the script will scrape in a single run.
 
+Results will be stored in `influencers` file. E.g.
+```
+pewdiepie,PewDiePie
+markiplier,Markiplier
+```
+
 ## Features
 - Duplicate `@handle`s will not be saved to `influencers` file
 
 ## Please note
 - Emojis/special characters in names are ignored when saving to `influencers`
-- Commas in names are replaced with ` `
+- Commas in names are replaced as a space
