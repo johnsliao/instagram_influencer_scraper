@@ -8,6 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
 MAX_HANDLE_ATTEMPTS = 25  # Maximum number of handles scraper will check per run
+MINIMUM_FOLLOWER_COUNT = 10000  # Minimum number of followers for bot to consider saving
 
 assert os.environ.get('IG_USERNAME') != None, 'IG_USERNAME not set'
 assert os.environ.get('IG_PASSWORD') != None, 'IG_PASSWORD not set'
@@ -47,6 +48,19 @@ def save_influencer(handle, name):
         f.write('{},{}\n'.format(handle, name))
 
     print('  -> Successfully saved <{}, {}>'.format(handle, name))
+
+
+def parse_follower_count(text):
+    text = text.replace(' followers', '')
+    text = text.replace(',', '')
+    text = text.replace('.', '')
+
+    if 'k' in text:
+        text = int(text.replace('k', '')) * 100
+    else:
+        text = int(text)
+
+    return text
 
 
 def scrape():
@@ -99,11 +113,21 @@ def scrape():
                     print('Inspecting handle {}'.format(handle))
                     driver.get('https://www.instagram.com/{}/'.format(handle))
 
+                    # Scrape name
                     try:
                         elems = driver.find_elements_by_xpath("//h1")
                         name = elems[1].text
                     except Exception:
                         print('No name found.')
+
+                    # Scrape follower count
+                    try:
+                        elems = driver.find_elements_by_partial_link_text('followers')
+                        if parse_follower_count(elems[0].text) < MINIMUM_FOLLOWER_COUNT:
+                            print('  -> Not enough followers [{}]'.format(elems[0].text))
+                            continue
+                    except Exception:
+                        print('No follower count found.')
 
                     save_influencer(handle, name)
 

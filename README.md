@@ -25,7 +25,7 @@ mensfashion
 ```
 
 `MAX_HANDLE_ATTEMPTS` is set in `app.py` to `25` by default. This configuration sets the number of posts the script will scrape in a single run.
-
+`MINIMUM_FOLLOWER_COUNT` is set to `10000` by default
 Results will be stored in `influencers` file. E.g.
 ```
 pewdiepie,PewDiePie
