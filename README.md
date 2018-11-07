@@ -23,14 +23,15 @@ This script scrapes `handle` and `name` from top posts on Instagram based on #ha
 gaming
 mensfashion
 ```
-
-`MAX_HANDLE_ATTEMPTS` is set in `app.py` to `25` by default. This configuration sets the number of posts the script will scrape in a single run.
-`MINIMUM_FOLLOWER_COUNT` is set to `10000` by default
+ 
 Results will be stored in `influencers` file. E.g.
 ```
 pewdiepie,PewDiePie
 markiplier,Markiplier
 ```
+## Configuration
+1. `MAX_HANDLE_ATTEMPTS` is set in `app.py` to `25` by default. Sets the number of posts the script will scrape in a single run.  
+2. `MINIMUM_FOLLOWER_COUNT` is set to `10000` by default. Sets the minimum number of followers for influencer to be recorded.
 
 ## Features
 - Duplicate `@handle`s will not be saved to `influencers` file
