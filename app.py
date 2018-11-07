@@ -12,6 +12,7 @@ MAX_HANDLE_ATTEMPTS = 25  # Maximum number of handles scraper will check per run
 assert os.environ.get('IG_USERNAME') != None, 'IG_USERNAME not set'
 assert os.environ.get('IG_PASSWORD') != None, 'IG_PASSWORD not set'
 
+
 def get_tags():
     tags = []
     with open('./tags', 'r') as f:
@@ -43,7 +44,7 @@ def save_influencer(handle, name):
         return
 
     with open('./influencers', 'a') as f:
-        f.write('\n{},{}'.format(handle, name))
+        f.write('{},{}\n'.format(handle, name))
 
     print('  -> Successfully saved <{}, {}>'.format(handle, name))
 
@@ -88,22 +89,31 @@ def scrape():
             print('Found {} posts'.format(len(posts)))
 
             for post in posts:
-                handle_attempts += 1
-                driver.get(post)
-                elems = driver.find_elements_by_xpath("//a[@title]")
-                handle = elems[0].get_attribute("title")
+                try:
+                    name = ''
+                    handle_attempts += 1
+                    driver.get(post)
+                    elems = driver.find_elements_by_xpath("//a[@title]")
+                    handle = elems[0].get_attribute("title")
 
-                print('Inspecting handle {}'.format(handle))
-                driver.get('https://www.instagram.com/{}/'.format(handle))
+                    print('Inspecting handle {}'.format(handle))
+                    driver.get('https://www.instagram.com/{}/'.format(handle))
 
-                elems = driver.find_elements_by_xpath("//h1")
-                name = elems[1].text
-                save_influencer(handle, name)
+                    try:
+                        elems = driver.find_elements_by_xpath("//h1")
+                        name = elems[1].text
+                    except Exception:
+                        print('No name found.')
 
-                if handle_attempts > MAX_HANDLE_ATTEMPTS:
-                    sys.exit('Max attempts reached')
+                    save_influencer(handle, name)
 
-                time.sleep(random.choice(range(1, 5)))
+                    if handle_attempts > MAX_HANDLE_ATTEMPTS:
+                        sys.exit('Max attempts reached')
+
+                    time.sleep(random.choice(range(1, 5)))
+                except Exception as e:
+                    print(e)
+
 
     except Exception as e:
         print(e)
